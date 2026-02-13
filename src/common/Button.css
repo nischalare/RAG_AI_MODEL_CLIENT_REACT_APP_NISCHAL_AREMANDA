@@ -1,0 +1,125 @@
+/* Base Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+/* Sizes */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.btn-md {
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.btn-lg {
+  padding: 14px 24px;
+  font-size: 16px;
+}
+
+/* Full width */
+.btn-full {
+  width: 100%;
+}
+
+/* ===================== */
+/* Variants */
+/* ===================== */
+
+/* Primary */
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+/* Secondary */
+.btn-secondary {
+  background: #334155;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #475569;
+}
+
+/* Danger */
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: #cbd5e1;
+}
+
+.btn-ghost:hover {
+  background: #1f2937;
+  color: white;
+}
+
+/* ===================== */
+/* Disabled State */
+/* ===================== */
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===================== */
+/* Loading State */
+/* ===================== */
+
+.btn-loading {
+  pointer-events: none;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Icon */
+.btn-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Icon only button */
+.btn-icon-only {
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+}
