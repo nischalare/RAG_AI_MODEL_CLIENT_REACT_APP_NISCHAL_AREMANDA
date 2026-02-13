@@ -49,7 +49,7 @@ Authorization: Bearer <JWT_TOKEN>
 ---
 
 ## 📁 Project Structure
-
+```text
 ai-rag-frontend/
 │
 ├── public/
@@ -94,6 +94,7 @@ ai-rag-frontend/
 ├── vite.config.js
 ├── .gitignore
 └── README.md
+```
 
 ---
 
