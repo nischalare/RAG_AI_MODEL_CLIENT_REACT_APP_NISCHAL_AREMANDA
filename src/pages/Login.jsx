@@ -8,7 +8,7 @@ import {
   Box
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { loginUser } from "../api/authService";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -24,25 +24,24 @@ export default function Login() {
   }, [navigate]);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // ✅ prevent page reload
+    e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/auth/login",
-        {
-          email,
-          password
-        }
-      );
+      const data = await loginUser(email, password);
 
-      // ✅ Save token
-      localStorage.setItem("token", res.data.access_token);
+      // ✅ Store JWT
+      localStorage.setItem("token", data.access_token);
 
-      // ✅ Redirect to protected layout route
+      // ✅ Redirect to protected route
       navigate("/app/home");
 
     } catch (err) {
-      alert(err.response?.data?.detail || "Login failed");
+      const errorMessage =
+        Array.isArray(err.response?.data?.detail)
+          ? err.response.data.detail.map(e => e.msg).join(", ")
+          : err.response?.data?.detail || "Login failed";
+
+      alert(errorMessage);
     }
   };
 
@@ -53,7 +52,6 @@ export default function Login() {
           Login
         </Typography>
 
-        {/* Wrap inside form for Enter key support */}
         <Box
           component="form"
           onSubmit={handleLogin}
@@ -81,7 +79,7 @@ export default function Login() {
           <Button
             variant="contained"
             size="large"
-            type="submit"   // ✅ allows Enter key submit
+            type="submit"
           >
             Login
           </Button>
