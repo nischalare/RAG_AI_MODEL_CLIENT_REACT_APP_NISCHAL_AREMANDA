@@ -1,217 +1,108 @@
+# AI RAG Frontend
 
-# 🧠 AI RAG Frontend  
-Enterprise AI • JWT Auth • RAG Chat UI • Analytics Dashboard
+React · Vite · JWT · RAG Chat UI · Analytics + Profiles
 
----
+## Overview
 
-## 📌 Project Overview
+This repository houses the frontend for an enterprise-grade Retrieval-Augmented Generation (RAG) chatbot platform. It acts as the user gateway to the FastAPI/LangChain backend and provides authentication, real-time chat, analytics, and profile screens backed by JWT-protected routes.
 
-This is the React + Vite Frontend for the AI RAG Chatbot Platform.
+## Key Features
 
-It provides:
+- **Session management** – JWT login/register flows with tokens stored in `localStorage`.
+- **Conversational chat** – Chat window, message bubbles, and streaming-like UI powered by Axios calls to `/chat`.
+- **RAG responses** – Sources and token usage from PDF embeddings are surfaced to the user.
+- **Role-aware analytics** – Dashboards showing token spend, admin summaries, and per-user statistics.
+- **Enterprise layout** – Sidebar, navbar, layout wrapper, and reusable UI atoms (buttons, loaders, etc.).
 
-- 🔐 JWT Authentication (Login / Register)
-- 🧠 Conversational Chat Interface
-- 📄 RAG-based responses from PDFs
-- 📊 Token Usage Analytics
-- 👤 Profile & Role Display
-- 🛡 Protected Routes
-- 🎨 Modern Enterprise UI
+## Architecture
 
----
-
-## 🏗️ System Architecture
-
-React (Vite)
-    ↓
-JWT Authentication
-    ↓
-FastAPI Backend
-    ↓
-LangChain + RAG + PostgreSQL
-
-Authorization Header:
-Authorization: Bearer <JWT_TOKEN>
-
----
-
-## 🧰 Tech Stack
-
-- React 18
-- Vite
-- React Router
-- Axios
-- JWT Authentication
-- Context API
-- Protected Routes
-- Custom CSS Styling
-
----
-
-## 📁 Project Structure
-```text
-ai-rag-frontend/
-│
-├── public/
-├── src/
-│   ├── api/
-│   │   ├── authService.js
-│   │   ├── axiosInstance.js
-│   │   ├── chatService.js
-│   │
-│   ├── app/
-│   │   ├── App.jsx
-│   │   ├── routes.jsx
-│   │
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Layout.jsx
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── Sidebar.jsx
-│   │   ├── ChatWindow.jsx
-│   │   ├── MessageBubble.jsx
-│   │
-│   ├── context/
-│   │   ├── AuthContext.jsx
-│   │
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Chat.jsx
-│   │   ├── Analytics.jsx
-│   │   ├── Profile.jsx
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │
-│   ├── styles/
-│   │   ├── global.css
-│   │   ├── App.css
-│   │   ├── index.css
-│   │
-│   ├── main.jsx
-│
-├── index.html
-├── package.json
-├── vite.config.js
-├── .gitignore
-└── README.md
+```
+React (Vite) → Context / Protected Routes → Axios → FastAPI backend
+          ↳ LangChain / RAG / PostgreSQL / JWT Auth
 ```
 
----
+The frontend injects the bearer token into each request (`Authorization: Bearer <JWT_TOKEN>`) through `src/api/axiosInstance.js`.
 
-## 🔐 Authentication Flow
+## Tech Stack
 
-### Register
-POST /auth/register
+- React 19 + Vite 7
+- React Router DOM v7
+- Axios + Context API for API/auth orchestration
+- MUI for icons + theming helper (`@mui/material`, `@mui/icons-material`)
+- Plain CSS modules plus shared `global.css`, `App.css`, and `common` styles
 
-{
-  "email": "user@email.com",
-  "password": "securepassword",
-  "role": "USER"
-}
+## Getting Started
 
-### Login
-POST /auth/login
+1. Install dependencies: `npm install`
+2. Point the backend base URL in `src/api/axiosInstance.js` (defaults to `http://127.0.0.1:8000`).
+3. Run the dev server: `npm run dev`
+4. Open `http://localhost:5173` (Vite will print the exact address in the console).
 
-Response:
-{
-  "access_token": "jwt_token_here",
-  "token_type": "bearer"
-}
+### Scripts
 
-Token stored in localStorage.
+- `npm run dev` – starts the Vite server with hot reload.
+- `npm run build` – produces the `dist/` bundle.
+- `npm run preview` – serves the production build locally.
+- `npm run lint` – runs ESLint across the project.
 
----
+## Authentication Flow
 
-## 💬 Chat Feature
+| Route | Payload | Response |
+| --- | --- | --- |
+| `POST /auth/register` | `{ email, password, role }` | `201` on success |
+| `POST /auth/login` | `{ email, password }` | `{ access_token, token_type }` |
 
-POST /chat
+Tokens are stored via `localStorage.setItem("token", token)` and consumed by `AuthContext`.
 
-Request:
-{
-  "message": "What is RAG?",
-  "session_id": "session1",
-  "memory_type": "buffer"
-}
+## Visual Experience
 
-Response:
-{
-  "user": "user@email.com",
-  "session_id": "session1",
-  "reply": "RAG stands for Retrieval-Augmented Generation...",
-  "tokens": {
-    "prompt": 1052,
-    "completion": 9,
-    "total": 1061,
-    "cost": 0.001596
-  },
-  "sources": [...]
-}
+- **Unified layout** – `components/layout/Layout.jsx` wraps the sidebar and navbar, keeping the header, notifications, and content panes aligned.
+- **Sidebar navigation** – Icons + labels lead to Home, Chat, Analytics, and Profile while the active route is highlighted for orientation.
+- **Chat canvas** – `chat/ChatWindow.jsx`, `chat/ChatInput.jsx`, and `components/MessageBubble.jsx` render the conversation, support scroll anchors, and show token/source metadata within each response bubble.
+- **Analytics grid** – Cards, charts, and token counters surface usage trends; values are pulled from `/analytics/summary` or `/analytics/admin` based on role.
+- **Profile + support** – The Profile screen confirms role/permissions and lets users log out cleanly via the navbar menu.
+- **Forms and feedback** – Login/register forms give in-place validation, loaders, and error feedback using the shared `common/Loader` and button styles.
 
-Frontend displays data.reply inside chat bubble.
+## API Clients
 
----
+- `src/api/authService.js`: login & register wrappers.
+- `src/api/chatService.js`: sends chat messages and records token usage.
+- `src/api/axiosInstance.js`: sets `baseURL`, injects the Authorization header, and handles errors.
 
-## 📊 Analytics
+## Routing
 
-User:
-GET /analytics/summary
+- Public: `/` (login), `/register`.
+- Protected under `/app/*`:
+  - `/app/home`
+  - `/app/chat`
+  - `/app/analytics`
+  - `/app/profile`
 
-Admin:
-GET /analytics/admin
+Routes are protected by `ProtectedRoute`/`ProtectedLayout` that redirect to `/` when no token exists.
 
----
+## Directory Snapshot
 
-## ▶️ Setup Instructions
+```
+src/
+├── api/           # Axios + service helpers
+├── app/           # Entry points + router/app shell
+├── chat/          # Chat components (input, bubble, window)
+├── components/    # Layout, navbar, sidebar
+├── context/        # AuthContext provider/hooks
+├── pages/          # Screens (Home, Chat, Analytics, Profile, Login, Register)
+├── styles/         # Global/shared CSS
+└── main.jsx         # React bootstrapper
+```
 
-1️⃣ Clone Repository
-git clone <your-repo-url>
-cd ai-rag-frontend
+## Deployment
 
-2️⃣ Install Dependencies
-npm install
+1. Run `npm run build`.
+2. Deploy the `dist/` artifact to any static host (Vercel, Netlify, GitHub Pages, etc.).
+3. Ensure the backend URL in `axiosInstance.js` matches the production API.
 
-3️⃣ Configure Backend URL(its already done in code)
-Update src/api/axiosInstance.js
+## Contribution
 
-baseURL: "http://127.0.0.1:8000"
-
-4️⃣ Run Development Server
-npm run dev
-
-Open in browser:
-http://localhost:5173
-
----
-
-## 🔧 Build for Production
-
-npm run build
-
-Output folder:
-dist/
-
-Deploy dist/ to:
-- Vercel
-- Netlify
-- GitHub Pages
-
----
-
-## 🚀 Production Capabilities
-
-✅ Secure JWT login  
-✅ Protected routes  
-✅ Role-based UI  
-✅ Real-time chat UI  
-✅ RAG integration  
-✅ Token analytics dashboard  
-✅ Clean enterprise layout  
-
----
-
-## 🎯 Enterprise-Ready Frontend
-
-✔ Production-level React architecture  
-✔ Secure backend integration  
-✔ Scalable modular structure  
-✔ Modern UI design  
+1. Fork the repo.
+2. Create a feature branch.
+3. Run tests or lint (`npm run lint`) before opening a PR.
+4. Provide screenshots/logs for UI or auth flow changes.
