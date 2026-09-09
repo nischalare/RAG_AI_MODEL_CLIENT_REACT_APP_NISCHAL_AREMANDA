@@ -159,16 +159,18 @@ body {
 
 .message {
   display: flex;
+  flex-direction: column;
   max-width: 75%;
 }
 
 .message.user {
   align-self: flex-end;
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .message.bot {
   align-self: flex-start;
+  align-items: flex-start;
 }
 
 /* ============================= */
@@ -197,6 +199,123 @@ body {
   color: #e2e8f0;
   border: 1px solid #334155;
   border-bottom-left-radius: 6px;
+}
+
+/* ============================= */
+/* CITATIONS PANEL */
+/* ============================= */
+
+.citations {
+  margin-top: 6px;
+  max-width: 100%;
+}
+
+.citations-toggle {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.citations-toggle:hover {
+  color: #cbd5e1;
+}
+
+.citations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.citation-card {
+  background: #161f30;
+  border: 1px solid #263244;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  max-width: 480px;
+}
+
+.citation-card.citation-admin {
+  border-color: #7c2d12;
+  background: #251712;
+}
+
+.citation-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.citation-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #1e293b;
+  color: #93c5fd;
+  white-space: nowrap;
+}
+
+.citation-type-badge.type-table {
+  background: #16261a;
+  color: #86efac;
+}
+
+.citation-type-badge.type-image {
+  background: #271a2e;
+  color: #d8b4fe;
+}
+
+.citation-file {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.citation-admin-badge {
+  background: #7c2d12;
+  color: #fed7aa;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.citation-score {
+  margin-left: auto;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.citation-snippet {
+  color: #94a3b8;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.citation-image-path {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 11px;
+  word-break: break-all;
 }
 
 /* ============================= */
