@@ -145,10 +145,13 @@ Request:
   "retrieval_mode": "hybrid_rerank"
 }
 
-`retrieval_mode` is optional (defaults to `"hybrid_rerank"` if omitted, which is what `ChatWindow.jsx` currently does). Valid values:
+`retrieval_mode` defaults to `"hybrid_rerank"` server-side if omitted, but `ChatWindow.jsx` always sends one explicitly now, picked from the mode dropdown above the message list. Valid values:
 - `dense` — plain vector similarity search
 - `hybrid` — vector search + BM25 keyword search, merged
-- `hybrid_rerank` — hybrid, then reranked by a cross-encoder for relevance
+- `hybrid_rerank` — hybrid, then reranked by a cross-encoder for relevance (default)
+- `multi_query` — hybrid_rerank, fanned out across paraphrased query variants and merged
+- `graph` — answered by knowledge-graph traversal instead of vector search (multi-hop, "who teaches/owns/reports to" questions)
+- `agentic` — routes each query to `graph` or `vector` search and retries the other tool if the first finds nothing
 
 Response:
 {
@@ -156,6 +159,7 @@ Response:
   "session_id": "session1",
   "retrieval_mode": "hybrid_rerank",
   "reply": "RAG stands for Retrieval-Augmented Generation...",
+  "mode_info": {},
   "tokens": {
     "prompt": 1052,
     "completion": 9,
@@ -175,9 +179,9 @@ Response:
   ]
 }
 
-`content_type` is one of `"text" | "table" | "image"` — a source can be a ruled table or an embedded image, not just narrative text. `relevance_score` is only populated in `hybrid_rerank` mode (`null` otherwise). `access_level` reflects permission-aware retrieval: a `"USER"`-role token never receives `"admin"`-level sources, even if they'd otherwise be the best match.
+`content_type` is one of `"text" | "ocr_text" | "table" | "image" | "audio" | "graph_edge"` — a source can be a ruled table, an embedded image, a scanned/OCR'd page, a transcribed audio clip, or a graph-traversal edge, not just narrative text. `relevance_score` is only populated in `hybrid_rerank`/`multi_query` mode (`null` otherwise). `access_level` reflects permission-aware retrieval: a `"USER"`-role token never receives `"admin"`-level sources, even if they'd otherwise be the best match.
 
-**Current UI limitation:** `ChatWindow.jsx` only reads `data.reply` into the chat bubble — `data.sources` is returned by the backend but not yet rendered anywhere in this frontend.
+`mode_info` is populated only for `graph` (`graph_matched_entities`: which graph nodes the query resolved to) and `agentic` (`agent_trace`: the actual routing/retry decisions made, e.g. `["route=graph (heuristic fallback)", "graph_search: 0 fact(s)", "retry: vector_search", "vector_search: 3 chunk(s)"]`) — empty object for every other mode. `ChatWindow.jsx` renders both `sources` (as a collapsible citations panel under each bot message) and `mode_info` (as a collapsible "Agent trace" / "Matched entities" panel) when present.
 
 ---
 

@@ -138,6 +138,50 @@ body {
 }
 
 /* ============================= */
+/* RETRIEVAL MODE TOOLBAR */
+/* ============================= */
+
+.chat-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 30px;
+  border-bottom: 1px solid #1f2937;
+  background: #111827;
+  flex-wrap: wrap;
+}
+
+.chat-toolbar-label {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.mode-select {
+  background: #1f2937;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.mode-select:focus {
+  border-color: #2563eb;
+}
+
+.chat-toolbar-hint {
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* ============================= */
 /* CHAT MESSAGES */
 /* ============================= */
 
@@ -199,6 +243,95 @@ body {
   color: #e2e8f0;
   border: 1px solid #334155;
   border-bottom-left-radius: 6px;
+}
+
+/* ============================= */
+/* MESSAGE MODE BADGE */
+/* ============================= */
+
+.message-mode-badge {
+  align-self: inherit;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  padding: 1px 8px;
+  border: 1px solid #263244;
+  border-radius: 999px;
+  background: #161f30;
+  width: fit-content;
+}
+
+/* ============================= */
+/* AGENT TRACE / MATCHED ENTITIES PANEL */
+/* ============================= */
+
+.agent-trace {
+  margin-top: 6px;
+  max-width: 100%;
+}
+
+.agent-trace-toggle {
+  background: none;
+  border: none;
+  color: #93c5fd;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.agent-trace-toggle:hover {
+  color: #bfdbfe;
+}
+
+.agent-trace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  background: #12203a;
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  padding: 10px 12px;
+  max-width: 480px;
+}
+
+.agent-trace-entities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.entity-chip {
+  background: #1e293b;
+  color: #93c5fd;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.agent-trace-step {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.agent-trace-index {
+  flex-shrink: 0;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
 }
 
 /* ============================= */
@@ -279,6 +412,21 @@ body {
 .citation-type-badge.type-image {
   background: #271a2e;
   color: #d8b4fe;
+}
+
+.citation-type-badge.type-audio {
+  background: #1a2a27;
+  color: #5eead4;
+}
+
+.citation-type-badge.type-graph_edge {
+  background: #241a2e;
+  color: #f0abfc;
+}
+
+.citation-type-badge.type-ocr_text {
+  background: #2e2617;
+  color: #fcd34d;
 }
 
 .citation-file {
