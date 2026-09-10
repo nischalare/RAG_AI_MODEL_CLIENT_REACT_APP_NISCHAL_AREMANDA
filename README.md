@@ -35,6 +35,8 @@ Authorization: Bearer <JWT_TOKEN>
 
 **Prerequisite:** the backend (`RAG_AI_MODEL_SERVER_APP`) must already be running at `http://127.0.0.1:8000` — see that repo's own README for its setup (`.env`, `create_tables.py`, `python -m rag.ingest`, `uvicorn app:app --reload`). This frontend has no server of its own to fall back on.
 
+Demoing Module 4 (retrieval modes, citations, agent traces)? `RAG_AI_MODEL_SERVER_APP/docs/demo_guide.md` maps each slide to a query to run right here in `ChatWindow.jsx`.
+
 ---
 
 ## 🧰 Tech Stack
@@ -43,10 +45,11 @@ Authorization: Bearer <JWT_TOKEN>
 - Vite
 - React Router
 - Axios
+- MUI (`@mui/material`, `@mui/icons-material`) + Emotion — used in `Home.jsx`, `Login.jsx`, `Register.jsx` and `Analytics.jsx`
 - JWT Authentication
 - Context API
 - Protected Routes
-- Custom CSS Styling
+- Custom CSS for everything else (`chat/`, `common/`, `components/layout/`, `styles/global.css`)
 
 ---
 
@@ -72,7 +75,9 @@ RAG_AI_MODEL_CLIENT_REACT_APP_NISCHAL_AREMANDA/
 │   │
 │   ├── common/
 │   │   ├── Button.jsx
+│   │   ├── Button.css
 │   │   ├── Loader.jsx
+│   │   ├── Loader.css
 │   │
 │   ├── components/
 │   │   ├── layout/
